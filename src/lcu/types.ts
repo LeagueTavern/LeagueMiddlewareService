@@ -4,6 +4,36 @@ export type iLcuConnectCert = {
   protocol: 'http' | 'https'
 }
 
+export type iLcuConnectSocketMsg<T> = [
+  number,
+  string,
+  {
+    data: T
+    eventType: string
+    uri: string
+  }
+]
+
+export type iLcuEventType = 'connected' | 'disconnected' | 'message'
+export type iLcuEvent = (
+  identification: iLcuClientIdentification,
+  message?: iLcuConnectSocketMsg<unknown>
+) => void
+
+export type iLcuEventMap = Map<
+  symbol,
+  {
+    type: iLcuEventType
+    handler: iLcuEvent
+  }
+>
+
+export type iLcuClientIdentification = {
+  accountId: number
+  puuid: string
+  displayName: string
+}
+
 export type iLcuSummonerInfo = {
   accountId: number
   displayName: string
