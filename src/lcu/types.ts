@@ -16,7 +16,7 @@ export type iLcuConnectSocketMsg<T> = [
 
 export type iLcuEventType = 'connected' | 'disconnected' | 'message'
 export type iLcuEvent = (
-  identification: iLcuClientIdentification,
+  clientIdentification: iLcuClientIdentification,
   message?: iLcuConnectSocketMsg<unknown>
 ) => void
 
