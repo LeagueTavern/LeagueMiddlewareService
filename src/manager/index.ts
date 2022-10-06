@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:38:35
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-06 22:44:29
+ * @LastEditTime: 2022-10-07 00:04:31
  * @FilePath: \LeaugeMiddleware\src\manager\index.ts
  * @Description:
  */
@@ -62,13 +62,14 @@ export class LeagueClientManager {
     const clientSymbol = Symbol()
     const clientConnect = client.connect(cert)
 
-    return new Promise<{ clientSymbol: symbol } & iLcuSummonerInfo>(
+    return new Promise<{ clientSymbol: symbol } & iLcuClientIdentification>(
       (resolve, reject) => {
         clientConnect
-          .then((clientIdentification) => {
+          .then(() => {
             // 连接成功
             // 绑定事件，并添加到类内储存起来
 
+            const clientIdentification = client.getIdentification()
             const disconnectExecutorSymbol = client.on('disconnected', () => {
               this.clients.delete(clientSymbol)
               this.emit('disconnected', clientSymbol, clientIdentification)

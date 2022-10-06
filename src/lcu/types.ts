@@ -1,3 +1,11 @@
+/*
+ * @Author: Coooookies admin@mitay.net
+ * @Date: 2022-10-04 19:38:35
+ * @LastEditors: Coooookies admin@mitay.net
+ * @LastEditTime: 2022-10-06 23:55:03
+ * @FilePath: \LeaugeMiddleware\src\lcu\types.ts
+ * @Description: 
+ */
 export type iLcuConnectCert = {
   port: number
   token: string
@@ -38,6 +46,8 @@ export type iLcuSummonerInfo = {
   accountId: number
   displayName: string
   internalName: string
+  nameChangeFlag: boolean,
+  privacy: 'PUBLIC' | 'PRIVATE',
   percentCompleteForNextLevel: number
   profileIconId: number
   puuid: string
@@ -50,6 +60,7 @@ export type iLcuSummonerInfo = {
   }
   summonerId: number
   summonerLevel: number
+  unnamed: boolean,
   xpSinceLastLevel: number
   xpUntilNextLevel: number
 }
