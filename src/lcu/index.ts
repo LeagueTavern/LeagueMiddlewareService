@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:41:03
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-06 22:39:56
+ * @LastEditTime: 2022-10-07 14:10:51
  * @FilePath: \LeaugeMiddleware\src\lcu\index.ts
  * @Description:
  */
@@ -163,8 +163,6 @@ export class LeagueClientConnector {
           }
         })
         .catch((err) => {
-          console.log(err)
-
           return reject({
             type: 'LCU Http error',
             err: "API client can't fetch anything"
@@ -175,6 +173,10 @@ export class LeagueClientConnector {
 
   isAvailable() {
     return this.cert && this.httpClient && this.websocketClient
+  }
+
+  getHttpClientInstance() {
+    return this.httpClient!
   }
 
   getIdentification() {

@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:38:35
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-07 00:04:31
+ * @LastEditTime: 2022-10-07 14:09:56
  * @FilePath: \LeaugeMiddleware\src\manager\index.ts
  * @Description:
  */
@@ -11,7 +11,6 @@ import { getProcessFromName, getCommandlineFromPid } from '../process'
 import type { iLcuEventType, iLcuEventMap, iLcuEvent } from './types'
 import type {
   iLcuConnectCert,
-  iLcuSummonerInfo,
   iLcuConnectSocketMsg,
   iLcuClientIdentification
 } from '../lcu'
@@ -112,6 +111,30 @@ export class LeagueClientManager {
     return this.clients
   }
 
+  // 通过symbol取出client
+  getClientBySymbol(symbol: symbol): LeagueClientConnector | null {
+    let client: LeagueClientConnector | null = null
+
+    this.getClients().forEach((currentClient, currentSymbol) => {
+      if (symbol === currentSymbol) client = currentClient
+    })
+
+    return client
+  }
+
+  // 通过puuid取出client
+  getClientByPuuid(puuid: string): LeagueClientConnector | null {
+    let client: LeagueClientConnector | null = null
+
+    this.getClients().forEach((currentClient, currentSymbol) => {
+      if (puuid === currentClient.getIdentification().puuid) {
+        client = currentClient
+      }
+    })
+
+    return client
+  }
+
   // 启用自动寻找客户端
   enableAutoConnect() {
     const handler = async () => {
@@ -135,7 +158,7 @@ export class LeagueClientManager {
                   // console.log(info, cert)
                 })
                 .catch((err) => {
-                  // console.error(err, cert)
+                  console.error(err, cert)
                 })
             }
           }

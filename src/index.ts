@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:38:35
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-07 00:01:30
+ * @LastEditTime: 2022-10-07 14:43:50
  * @FilePath: \LeaugeMiddleware\src\index.ts
  * @Description:
  */
@@ -23,4 +23,6 @@ LCUManager.on('message', (symbol, identificationm, message) => {
 })
 
 LCUManager.enableAutoConnect()
+global.LCUManager = LCUManager
+
 console.log('Running')
