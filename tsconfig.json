@@ -21,5 +21,5 @@
     "files": true
   },
   "includes": ["src/**/*"],
-  "exclude": ["scripts/**/*"]
+  "exclude": ["scripts/**/*", "build/**/*", "dist/**/*"]
 }
