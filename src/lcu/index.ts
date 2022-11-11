@@ -22,7 +22,8 @@ import type {
 } from './types'
 
 const httpsAgent = new https.Agent({
-  rejectUnauthorized: false
+  rejectUnauthorized: false,
+  localAddress: "127.0.0.2"
 })
 
 export class LeagueClientConnector {
@@ -68,6 +69,8 @@ export class LeagueClientConnector {
       Authorization: `Basic ${base64Encode(`riot:${cert.token}`)}`
     }
 
+    httpsAgent.options.localPort = cert.port;
+
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       axios
         .get<iLcuSummonerInfo>(`${host}${url}`, { headers, httpsAgent })
@@ -78,6 +81,9 @@ export class LeagueClientConnector {
 
   // 链接LCU http/ws 服务
   connect(cert: iLcuConnectCert) {
+    
+    httpsAgent.options.localPort = cert.port;
+
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       const url = `/lol-summoner/v1/current-summoner`
       const baseURL = `${cert.protocol}://riot:${cert.token}@127.0.0.1:${cert.port}`
