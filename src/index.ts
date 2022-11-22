@@ -10,6 +10,11 @@
 import { LeagueClientManager } from './manager'
 import { Server } from './server'
 
+// 全局捕获
+process.on('unhandledRejection', error => {
+  console.log('UnknownError', error);
+});
+
 const LCUManager = new LeagueClientManager()
 global.LCUManager = LCUManager
 
