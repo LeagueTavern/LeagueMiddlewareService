@@ -93,6 +93,8 @@ function getCommandlineFromPid(processId: number) {
       resolve(line[1])
     })
   })
+  .then(data => [data, null])
+  .catch(err => [null, err])
 }
 
 export {
