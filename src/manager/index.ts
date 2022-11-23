@@ -142,10 +142,15 @@ export class LeagueClientManager {
         const processList = await getProcessFromName('LeagueClientUx.exe')
         // 遍历已经获取的LCU进程列表 使用Commandline解析器解析命令行
         // 提取出有效信息后 使用连接器进行连接
-        processList.forEach(async (process) => {
-          const cert = commandLineParser(
-            await getCommandlineFromPid(process.processId)
-          )
+        processList.forEach(async (process) => {        
+          const cmd = await getCommandlineFromPid(process.processId)
+          
+          if (cmd[0] == null) {
+            console.error("getCommandlineFromPid Err: ", cmd[1])
+            return;
+          }
+          
+          const cert = commandLineParser(cmd[0])
 
           // cert是否可用，且没有被连接过
           if (cert.available && !this.isConnect(cert)) {
