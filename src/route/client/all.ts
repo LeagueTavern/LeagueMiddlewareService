@@ -51,11 +51,7 @@ routes.all('/:puuid/:url(*)', (req, res) => {
         httpResponseCallback(response.status, response.data)
       } else {
         res.status(503)
-        res.json({
-          type: 'CLIENT_NOT_RESPONSE',
-          puuid,
-          err
-        })
+        res.send(`{"type":"CLIENT_NOT_RESPONSE","puuid":${puuid},"err":${err}}`)
       }
     })
 })

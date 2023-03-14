@@ -59,6 +59,11 @@ export class LeagueClientConnector {
       }
     })
   }
+  
+  // 生成本地随机地址
+  static getRandomLocalAddress() {
+    return `127.${Math.round(Math.random() * 254)}.${Math.round(Math.random() * 254)}.${Math.round(Math.random() * (250 - 2))}`
+  }
 
   // 分析LCU是否可用
   static check(cert: iLcuConnectCert) {
@@ -67,6 +72,9 @@ export class LeagueClientConnector {
     const headers = {
       Authorization: `Basic ${base64Encode(`riot:${cert.token}`)}`
     }
+
+    httpsAgent.options.localAddress = LeagueClientConnector.getRandomLocalAddress();
+    httpsAgent.options.localPort = cert.port;
 
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       axios
@@ -78,6 +86,10 @@ export class LeagueClientConnector {
 
   // 链接LCU http/ws 服务
   connect(cert: iLcuConnectCert) {
+
+    httpsAgent.options.localAddress = LeagueClientConnector.getRandomLocalAddress();
+    httpsAgent.options.localPort = cert.port;
+
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       const url = `/lol-summoner/v1/current-summoner`
       const baseURL = `${cert.protocol}://riot:${cert.token}@127.0.0.1:${cert.port}`
