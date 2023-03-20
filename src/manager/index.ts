@@ -2,12 +2,18 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:38:35
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-07 14:09:56
- * @FilePath: \LeaugeMiddleware\src\manager\index.ts
+ * @LastEditTime: 2023-03-20 19:31:05
+ * @FilePath: \LeagueMiddlewareService\src\manager\index.ts
  * @Description:
  */
 import { LeagueClientConnector, commandLineParser } from '../lcu'
 import { getProcessFromName, getCommandlineFromPid } from '../process'
+import {
+  log_client_join,
+  log_client_leave,
+  log_client_message,
+  log_client_connect_error
+} from '../logger'
 import type { iLcuEventType, iLcuEventMap, iLcuEvent } from './types'
 import type {
   iLcuConnectCert,
@@ -73,14 +79,27 @@ export class LeagueClientManager {
               this.clients.delete(clientSymbol)
               this.emit('disconnected', clientSymbol, clientIdentification)
               client.off(disconnectExecutorSymbol)
+              log_client_leave(
+                clientIdentification.puuid,
+                clientIdentification.displayName
+              )
             })
 
             client.on('message', (_idfc, message) => {
               this.emit('message', clientSymbol, clientIdentification, message!)
+              log_client_message(
+                clientIdentification.puuid,
+                clientIdentification.displayName,
+                message![2].uri
+              )
             })
 
             this.clients.set(clientSymbol, client)
             this.emit('connected', clientSymbol, clientIdentification)
+            log_client_join(
+              clientIdentification.puuid,
+              clientIdentification.displayName
+            )
 
             resolve({
               ...clientIdentification,
@@ -142,14 +161,14 @@ export class LeagueClientManager {
         const processList = await getProcessFromName('LeagueClientUx.exe')
         // 遍历已经获取的LCU进程列表 使用Commandline解析器解析命令行
         // 提取出有效信息后 使用连接器进行连接
-        processList.forEach(async (process) => {        
+        processList.forEach(async (process) => {
           const cmd = await getCommandlineFromPid(process.processId)
-          
+
           if (cmd[0] == null) {
-            console.error("getCommandlineFromPid Err: ", cmd[1])
-            return;
+            console.error('getCommandlineFromPid Err: ', cmd[1])
+            return
           }
-          
+
           const cert = commandLineParser(cmd[0])
 
           // cert是否可用，且没有被连接过
@@ -162,9 +181,13 @@ export class LeagueClientManager {
                 .then((info) => {
                   // console.log(info, cert)
                 })
-                .catch((err) => {
-                  console.error(err, cert)
-                })
+                .catch((err) =>
+                  log_client_connect_error(
+                    cert.port,
+                    cert.token,
+                    JSON.stringify(err)
+                  )
+                )
             }
           }
         })

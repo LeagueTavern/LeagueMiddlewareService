@@ -7,9 +7,11 @@
  * @Description:
  */
 import { LeagueClientManager } from './manager'
+import { Server } from './server'
 
 declare global {
   var LCUManager: LeagueClientManager
+  var LCUServer: Server
 }
 
 export {}

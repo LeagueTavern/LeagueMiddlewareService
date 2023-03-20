@@ -2,8 +2,8 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-04 19:41:03
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-07 14:10:51
- * @FilePath: \LeaugeMiddleware\src\lcu\index.ts
+ * @LastEditTime: 2023-03-20 19:44:58
+ * @FilePath: \LeagueMiddlewareService\src\lcu\index.ts
  * @Description:
  */
 export * from './types'
@@ -11,6 +11,7 @@ export * from './parser'
 import https from 'https'
 import axios, { AxiosInstance } from 'axios'
 import { encode as base64Encode } from 'js-base64'
+import { log_client_unknown_message } from '../logger'
 import { WebSocket } from 'ws'
 import type {
   iLcuConnectCert,
@@ -59,10 +60,12 @@ export class LeagueClientConnector {
       }
     })
   }
-  
+
   // 生成本地随机地址
   static getRandomLocalAddress() {
-    return `127.${Math.round(Math.random() * 254)}.${Math.round(Math.random() * 254)}.${Math.round(Math.random() * (250 - 2))}`
+    return `127.${Math.round(Math.random() * 254)}.${Math.round(
+      Math.random() * 254
+    )}.${Math.round(Math.random() * (250 - 2))}`
   }
 
   // 分析LCU是否可用
@@ -73,8 +76,9 @@ export class LeagueClientConnector {
       Authorization: `Basic ${base64Encode(`riot:${cert.token}`)}`
     }
 
-    httpsAgent.options.localAddress = LeagueClientConnector.getRandomLocalAddress();
-    httpsAgent.options.localPort = cert.port;
+    httpsAgent.options.localAddress =
+      LeagueClientConnector.getRandomLocalAddress()
+    httpsAgent.options.localPort = cert.port
 
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       axios
@@ -86,9 +90,9 @@ export class LeagueClientConnector {
 
   // 链接LCU http/ws 服务
   connect(cert: iLcuConnectCert) {
-
-    httpsAgent.options.localAddress = LeagueClientConnector.getRandomLocalAddress();
-    httpsAgent.options.localPort = cert.port;
+    httpsAgent.options.localAddress =
+      LeagueClientConnector.getRandomLocalAddress()
+    httpsAgent.options.localPort = cert.port
 
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
       const url = `/lol-summoner/v1/current-summoner`
@@ -151,7 +155,11 @@ export class LeagueClientConnector {
               this.emit('message', data)
             } catch (e) {
               // 数据不对劲
-              console.error('Unknown LCU message', message)
+              log_client_unknown_message(
+                this.puuid,
+                this.displayName,
+                message.length
+              )
             }
           }
 
