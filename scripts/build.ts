@@ -2,8 +2,8 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2022-10-06 23:22:41
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2022-10-06 23:48:24
- * @FilePath: \LeaugeMiddleware\scripts\build.ts
+ * @LastEditTime: 2023-03-20 20:18:55
+ * @FilePath: \LeagueMiddlewareService\scripts\build.ts
  * @Description:
  */
 import exe from '@angablue/exe'
@@ -16,7 +16,7 @@ const build = exe({
   pkg: ['-C', 'GZip'],
   version: config.version,
   target: 'node16-windows-x64',
-  //   icon: './assets/icon.ico',
+  icon: './icon/icon.ico',
   properties: {
     FileDescription: config.description,
     ProductName: config.productName,
