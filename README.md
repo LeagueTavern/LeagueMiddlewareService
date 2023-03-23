@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2023-03-23 14:50:26
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2023-03-23 23:37:26
+ * @LastEditTime: 2023-03-23 23:38:46
  * @FilePath: \LeagueMiddlewareService\README.md
  * @Description:
 -->
@@ -31,7 +31,7 @@
 
 本中间件在启动后，会开放`HTTP` `WEBSOCKET`两个服务。
 
-- `HTTP`部分负责发送请求给`客户端`，**默认端口**为`59101`，比如获取`精粹数量` `分解皮肤碎片`
+- `HTTP`部分的**默认端口**为`59101`，负责发送请求给`客户端`，比如获取`精粹数量` `分解皮肤碎片`
 - `WEBSOCKET`部分负责转发所有与`客户端`的数据给`使用者`，比如`房间创建事件`，`玩家状态变动事件`
 
 #### `HTTP`接口
