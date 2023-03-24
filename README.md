@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2023-03-23 14:50:26
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2023-03-23 23:38:46
+ * @LastEditTime: 2023-03-25 00:21:36
  * @FilePath: \LeagueMiddlewareService\README.md
  * @Description:
 -->
@@ -39,7 +39,7 @@
 ##### 1. 获取所有已连接客户端的数据
 
 ```
-GET /clients/get-clients
+GET /get/get-clients
 ```
 
 ```JSON
@@ -68,13 +68,13 @@ GET /clients/get-clients
 ##### 2. 发送请求给指定客户端
 
 ```
-GET /api/:puuid/:url(*)
-POST /api/:puuid/:url(*)
-PUT /api/:puuid/:url(*)
-PATCH /api/:puuid/:url(*)
-DELETE /api/:puuid/:url(*)
-OPTIONS /api/:puuid/:url(*)
-HEAD /api/:puuid/:url(*)
+GET /client/:puuid/:url(*)
+POST /client/:puuid/:url(*)
+PUT /client/:puuid/:url(*)
+PATCH /client/:puuid/:url(*)
+DELETE /client/:puuid/:url(*)
+OPTIONS /client/:puuid/:url(*)
+HEAD /client/:puuid/:url(*)
 ```
 
 ```JSON
@@ -87,8 +87,8 @@ HEAD /api/:puuid/:url(*)
 
 ```
 🌰 例子 & 解释
-GET /api/15911e14-89af-d8ad-2a29-ab8c1998ced2/lol-summoner/v1/current-summoner
-    /api/(puuid)                             /(url)
+GET /client/15911e14-89af-d8ad-2a29-ab8c1998ced2/lol-summoner/v1/current-summoner
+    /client/(puuid)                             /(url)
 ```
 
 #### `WEBSOCKET`通信
