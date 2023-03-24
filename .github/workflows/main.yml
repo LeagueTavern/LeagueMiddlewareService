@@ -1,0 +1,30 @@
+name: Build LeagueMiddlewareService For Win/Mac
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+      
+jobs:
+  release:
+    name: build and release LeagueMiddlewareService
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      matrix:
+        os: [windows-latest,macos-latest]
+    steps:
+      # step1: check out repository
+      - name: Check out git repository
+        uses: actions/checkout@v2
+      # step2: install node env
+      - name: Install Node.js
+        uses: actions/setup-node@v1
+      # step3: npm i
+      - name: Install Dependencies
+        run: npm install
+      #step4: build
+      - name: build windows app
+        if: matrix.os == 'windows-latest'
+        run: npm run build:exe
+        
