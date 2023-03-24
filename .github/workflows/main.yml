@@ -12,6 +12,7 @@ jobs:
     
     strategy:
       matrix:
+        node-version: [16.x]
         os: [windows-latest]
     steps:
       # step1: check out repository
