@@ -2,7 +2,7 @@
  * @Author: Coooookies admin@mitay.net
  * @Date: 2023-03-23 14:50:26
  * @LastEditors: Coooookies admin@mitay.net
- * @LastEditTime: 2023-03-25 00:21:36
+ * @LastEditTime: 2023-03-25 00:22:48
  * @FilePath: \LeagueMiddlewareService\README.md
  * @Description:
 -->
@@ -39,7 +39,7 @@
 ##### 1. 获取所有已连接客户端的数据
 
 ```
-GET /get/get-clients
+GET /api/get-clients
 ```
 
 ```JSON
