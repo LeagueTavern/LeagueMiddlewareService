@@ -21,6 +21,7 @@ import type {
   iLcuEventType,
   iLcuEvent
 } from './types'
+import { getRandomLocalAddress } from '../util/net'
 
 const httpsAgent = new https.Agent({
   rejectUnauthorized: false
@@ -61,13 +62,6 @@ export class LeagueClientConnector {
     })
   }
 
-  // 生成本地随机地址
-  static getRandomLocalAddress() {
-    return `127.${Math.round(Math.random() * 254)}.${Math.round(
-      Math.random() * 254
-    )}.${Math.round(Math.random() * (250 - 2))}`
-  }
-
   // 分析LCU是否可用
   static check(cert: iLcuConnectCert) {
     const host = `${cert.protocol}://127.0.0.1:${cert.port}`
@@ -76,8 +70,8 @@ export class LeagueClientConnector {
       Authorization: `Basic ${base64Encode(`riot:${cert.token}`)}`
     }
 
-    httpsAgent.options.localAddress =
-      LeagueClientConnector.getRandomLocalAddress()
+    // 使用本地随机地址
+    httpsAgent.options.localAddress = getRandomLocalAddress()
     httpsAgent.options.localPort = cert.port
 
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
@@ -90,8 +84,8 @@ export class LeagueClientConnector {
 
   // 链接LCU http/ws 服务
   connect(cert: iLcuConnectCert) {
-    httpsAgent.options.localAddress =
-      LeagueClientConnector.getRandomLocalAddress()
+    // 使用本地随机地址
+    httpsAgent.options.localAddress = getRandomLocalAddress()
     httpsAgent.options.localPort = cert.port
 
     return new Promise<iLcuSummonerInfo>((resolve, reject) => {
