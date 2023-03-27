@@ -7,7 +7,9 @@
  * @Description:
  */
 
+import https from 'https'
 import { Router } from 'express'
+import { getRandomLocalAddress } from '../../util/net'
 const routes = Router()
 
 routes.all('/:puuid/:url(*)', (req, res) => {
@@ -26,13 +28,22 @@ routes.all('/:puuid/:url(*)', (req, res) => {
     })
     return
   }
-
   const httpClient = client.getHttpClientInstance()
+  const cert = client.getCert()
+  
+  // 使用本地随机地址
+  const httpsAgent = new https.Agent({
+    rejectUnauthorized: false,
+    localAddress: getRandomLocalAddress(),
+    localPort: cert?.port
+  })
+  
   const httpRequest = httpClient({
     url,
     method,
     params: query,
-    data: body
+    data: body,
+    httpsAgent:httpsAgent
   })
 
   const httpResponseCallback = (status: number, body: unknown) => {
